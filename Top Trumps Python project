@@ -1,0 +1,43 @@
+import random
+import requests
+
+
+def random_pokemon():
+    player_1: int = random.randint(1, 151)
+    url = 'https://pokeapi.co/api/v2/pokemon/{}/'.format(player_1)
+    response = requests.get(url)
+    random_pokemon_1 = response.json()
+
+    my_stats = {
+        'name': random_pokemon_1['name'],
+        'id': random_pokemon_1['id'],
+        'height': random_pokemon_1['height'],
+        'weight': random_pokemon_1['weight']}
+
+    print('Player_1 pokemon card chosen {}'.format(my_stats))
+    return my_stats
+
+
+def main():
+
+    my_pokemon = random_pokemon()
+    your_pokemon = random_pokemon()
+
+    stat_choice_1 = input('Player 1, Which stat do you want to use? (id, height, weight) ')
+    stat_choice_2 = input('Player 2, Which stat do you want to use? (id, height, weight) ')
+
+    my_numbers = my_pokemon.get(stat_choice_1)
+    your_numbers = your_pokemon.get(stat_choice_2)
+
+    if my_numbers > your_numbers:
+        print("Player 1 is the winner with the highest value of {},".format(my_numbers))
+        print("Player 2 lost with a value of {},".format(your_numbers))
+    elif your_numbers > my_numbers:
+        print("Player 2 is the winner with the highest value of {}".format(your_numbers))
+        print("Player 1 lost with a value of {},".format(my_numbers))
+    else:
+        print("Looks like its a Draw")
+
+
+if __name__ == "__main__":
+    main()
